@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Category>
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "All Categories";
+}
+
+<h2> All Categories </h2>
+
+<a asp-action="AddCategory" class="btn btn-sm btn-primary">Add New Category</a>
+<a asp-action="GetCategory" class="btn btn-sm btn-primary">Get Category</a>
+
+<table class="table table-sm table-stripped table-borderd m-2">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>CategoryName</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryId</td>
+                <td>@item.CategoryName</td>
+                <td>
+                    <a asp-action="UpdateCategory" asp-route-id="@item.CategoryId">
+                        Update
+                    </a>
+                </td>
+                <td>
+                    <form asp-action="DeleteCategory" method="post">
+                        <input type="hidden" value="@item.CategoryId" name="CategoryID" />
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ViewBag.Error == true)
+{
+    <br />
+    <h5 style="color:red;">Could not delete that category, delete all associated products first</h5>
+}
